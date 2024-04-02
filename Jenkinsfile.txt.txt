@@ -1,0 +1,32 @@
+pipeline {
+    agent any
+    
+    stages {
+        stage('Restore') {
+            steps {
+                script {
+                    // Restore NuGet packages
+                    bat 'nuget restore HouseRentingSystem.sln'
+                }
+            }
+        }
+        
+        stage('Build') {
+            steps {
+                script {
+                    // Build the project
+                    bat 'msbuild HouseRentingSystem.sln /t:Build /p:Configuration=Release'
+                }
+            }
+        }
+        
+        stage('Test') {
+            steps {
+                script {
+                    // Execute tests
+                    bat 'msbuild HouseRentingSystem.sln /t:Test /p:Configuration=Release'
+                }
+            }
+        }
+    }
+}
